@@ -1,0 +1,10 @@
+CREATE TABLE subjects (
+    id TEXT PRIMARY KEY,
+
+    name TEXT NOT NULL UNIQUE,
+    code TEXT NOT NULL UNIQUE,
+    description TEXT,
+
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
