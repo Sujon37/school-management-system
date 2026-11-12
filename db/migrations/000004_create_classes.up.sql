@@ -1,0 +1,10 @@
+CREATE TABLE classes (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    numeric_level INTEGER NOT NULL UNIQUE,
+
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CHECK (numeric_level > 0)
+);
