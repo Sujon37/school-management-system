@@ -3,12 +3,14 @@ package httpx
 import (
 	"encoding/json"
 	"net/http"
+	"github.com/Sujon37/school-management-system/internal/handler"
 )
 
 func NewRouter() http.Handler {
 	mux := http.NewServeMux()
-	
+
 	mux.HandleFunc("GET /api/health", healthCheck)
+	mux.HandleFunc("POST /api/auth/login", handler.LoginHandler)
 	return mux
 }
 

@@ -7,7 +7,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Sujon37/school-management-system/cmd/seed"
 	"github.com/Sujon37/school-management-system/db"
+	"github.com/Sujon37/school-management-system/internal/auth"
 	"github.com/Sujon37/school-management-system/internal/config"
 	"github.com/Sujon37/school-management-system/internal/database"
 	"github.com/Sujon37/school-management-system/internal/httpx"
@@ -36,6 +38,14 @@ func run() error {
 	}
 
 	log.Println("Database migrations completed successfully!")
+
+	userRepo := auth.NewUserRepository(sqlDB)
+
+	err = seed.SeedAdmin(ctx, userRepo, cfg.Admin.Email, cfg.Admin.Password)
+
+	if err != nil {
+		return fmt.Errorf("Failed to seed admin: %s", err)
+	}
 
 	router := httpx.NewRouter()
 
