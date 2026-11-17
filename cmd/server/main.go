@@ -12,7 +12,8 @@ import (
 	"github.com/Sujon37/school-management-system/internal/auth"
 	"github.com/Sujon37/school-management-system/internal/config"
 	"github.com/Sujon37/school-management-system/internal/database"
-	"github.com/Sujon37/school-management-system/internal/httpx"
+	"github.com/Sujon37/school-management-system/internal/handler"
+	httpx "github.com/Sujon37/school-management-system/internal/router"
 )
 
 func main() {
@@ -47,7 +48,10 @@ func run() error {
 		return fmt.Errorf("Failed to seed admin: %s", err)
 	}
 
-	router := httpx.NewRouter()
+	authService := auth.NewAuthService(userRepo)
+	authHandler := handler.NewAuthHandler(authService, cfg.JWTSecret)
+
+	router := httpx.NewRouter(cfg.JWTSecret, authHandler)
 
 	server := &http.Server{
 		Addr:    cfg.HTTPServer.Addr,

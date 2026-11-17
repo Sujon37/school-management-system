@@ -11,7 +11,6 @@ import (
 var (
 	ErrInvalidCredentials = errors.New("invalid email or password")
 	ErrInactiveAccount    = errors.New("account is inactive")
-	ErrUnauthorizedRole   = errors.New("unauthorized role")
 )
 
 type AuthService struct {
@@ -41,10 +40,6 @@ func (s *AuthService) Login(
 
 	if !user.IsActive {
 		return nil, ErrInactiveAccount
-	}
-
-	if user.Role != "admin" {
-		return nil, ErrUnauthorizedRole
 	}
 
 	err = bcrypt.CompareHashAndPassword(
