@@ -14,6 +14,7 @@ import (
 	"github.com/Sujon37/school-management-system/internal/database"
 	"github.com/Sujon37/school-management-system/internal/handler"
 	httpx "github.com/Sujon37/school-management-system/internal/router"
+	"github.com/Sujon37/school-management-system/internal/user"
 )
 
 func main() {
@@ -51,7 +52,10 @@ func run() error {
 	authService := auth.NewAuthService(userRepo)
 	authHandler := handler.NewAuthHandler(authService, cfg.JWTSecret)
 
-	router := httpx.NewRouter(cfg.JWTSecret, authHandler)
+	userService := user.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
+
+	router := httpx.NewRouter(cfg.JWTSecret, authHandler, userHandler)
 
 	server := &http.Server{
 		Addr:    cfg.HTTPServer.Addr,
